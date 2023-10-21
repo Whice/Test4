@@ -59,7 +59,6 @@ namespace View
 
         private void OnCollisionEntered(Collision collision)
         {
-            //Простой способ проверить, что игрок на полу, без проброса кучи ссылок.
             if (collision.gameObject.GetComponent<FloorIndicator>() != null)
             {
                 isOnFloor = true;
@@ -71,6 +70,11 @@ namespace View
             if(bonusViewReference != null )
             {
                 player.AddBonus(bonusViewReference.bonusView.id);
+                bonusViewReference.bonusView.gameObject.SetActive(false);
+            }
+            if (other.GetComponent<FinishIndicator>()!=null)
+            {
+                player.OnPlayerFinished();
             }
         }
         private void Awake()

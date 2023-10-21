@@ -57,6 +57,12 @@ namespace Model
             bonusAdded?.Invoke(id); 
         }
 
+        public event Action finished;
+        public void OnPlayerFinished()
+        {
+            finished?.Invoke();
+        }
+
         public void ResetPlayer()
         {
             ResetSpeedMultiplier();

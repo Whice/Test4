@@ -12,4 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ef7f538a7fce3447bf22ab4574e09fe, type: 3}
   m_Name: BonusViewProvider
   m_EditorClassIdentifier: 
-  resourcesList: []
+  resourcesList:
+  - {fileID: 3028910470079439751, guid: 20ed60fe529d97f499006676e023ad9b, type: 3}
+  - {fileID: 4152169601164674805, guid: 1fa1d272f71036f43887648efa98d4ba, type: 3}
+  - {fileID: 4441343347676939250, guid: f03a1fed767dfb74f9c5beaa99c16d36, type: 3}

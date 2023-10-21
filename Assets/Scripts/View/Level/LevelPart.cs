@@ -8,6 +8,7 @@ namespace View
         [SerializeField] private BonusViewProvider bonusViewProvider = null;
         [SerializeField] private int bonusesCount = 3;
         [SerializeField] private int spaceBetweenBonuses = 3;
+        [SerializeField] private Vector2 minMaxBonusHeight = new Vector2(1, 5);
         [SerializeField] private Transform _playerStartPoint = null;
         [SerializeField] private Transform _playerFinisPoint = null;
         [SerializeField] private Transform floor = null;
@@ -38,7 +39,8 @@ namespace View
                 int index = Random.Range(0, bonusViewProvider.ids.Length);
                 BonusView bonusView = bonusViewProvider.GetPrefabClone(bonusViewProvider.ids[index]);
                 bonusView.transform.SetParent(transform);
-                bonusView.transform.localPosition = new Vector3(spaceBetweenBonuses * i, 0, 0);
+                float height = Random.Range(minMaxBonusHeight.x, minMaxBonusHeight.y);
+                bonusView.transform.localPosition = new Vector3(spaceBetweenBonuses * i, height, 0);
             }
         }
         private void Awake()
