@@ -5,7 +5,7 @@ namespace Model
     /// <summary>
     /// Управляет баффами для установленного игрока.
     /// </summary>
-    public class BufffManager
+    public class BuffManager
     {
         private Player player;
 
@@ -87,7 +87,7 @@ namespace Model
             }
         }
 
-        public BufffManager(Player player)
+        public BuffManager(Player player)
         {
             this.player = player;
         }

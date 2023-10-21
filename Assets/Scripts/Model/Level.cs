@@ -3,13 +3,14 @@
     public class Level
     {
         public Player player { get; private set; }
-        private BufffManager buffsManager;
+        private BuffManager buffsManager;
 
         private void ResetLevel()
         {
             player = new Player();
             buffsManager?.Dispose();
-            buffsManager = new BufffManager(player);
+            buffsManager = new BuffManager(player);
+            player.bonusAdded += buffsManager.SetBuff;
         }
         public void AddBuffToPlayer(int id)
         {

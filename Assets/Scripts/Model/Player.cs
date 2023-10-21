@@ -43,6 +43,20 @@ namespace Model
             }
         }
 
+        /// <summary>
+        /// Бонус был добавлен.
+        /// В аргументе id.
+        /// </summary>
+        public event Action<int> bonusAdded;
+        /// <summary>
+        /// Добавить бонус игроку.
+        /// </summary>
+        /// <param name="id"></param>
+        public void AddBonus(int id)
+        {
+            bonusAdded?.Invoke(id); 
+        }
+
         public void ResetPlayer()
         {
             ResetSpeedMultiplier();

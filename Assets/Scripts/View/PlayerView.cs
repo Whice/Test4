@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Model;
+using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace View
 {
@@ -31,41 +30,60 @@ namespace View
             }
         }
 
+        private Player player;
+        public void Initialize(Player player)
+        {
+            this.player=player;
+        }
+
         private bool isOnFloor;
         private void Update()
         {
-            float posx = position.x + playerSpeed * Time.deltaTime;
-            position = new Vector3
-                (
-                posx,
-                position.y,
-                position.z
-                );
-
-            if (isOnFloor && Input.GetKey(KeyCode.UpArrow))
+            if (player != null)
             {
-                playerRigidbody.AddForce(Vector3.up * jumpForce);
-                isOnFloor = false;
+                float posx = position.x + playerSpeed * player.speedMultiplier * Time.deltaTime;
+                position = new Vector3
+                    (
+                    posx,
+                    position.y,
+                    position.z
+                    );
+
+                if (isOnFloor && Input.GetKey(KeyCode.UpArrow))
+                {
+                    playerRigidbody.AddForce(Vector3.up * jumpForce);
+                    isOnFloor = false;
+                }
             }
         }
 
         private void OnCollisionEntered(Collision collision)
         {
-            if (collision.gameObject.name.ToLower().Contains("floor"))
+            //Простой способ проверить, что игрок на полу, без проброса кучи ссылок.
+            if (collision.gameObject.GetComponent<FloorIndicator>() != null)
             {
                 isOnFloor = true;
             }
         }
-
+        private void OnTriggerEntered(Collider other)
+        {
+            BonusViewReference bonusViewReference = other.GetComponent<BonusViewReference>();
+            if(bonusViewReference != null )
+            {
+                player.AddBonus(bonusViewReference.bonusView.id);
+            }
+        }
         private void Awake()
         {
             isOnFloor = true;
             mainCamera = Camera.main;
             playerBodyCollisionEvents.collisionEntered += OnCollisionEntered;
+            playerBodyCollisionEvents.triggerEntered += OnTriggerEntered;
         }
         private void OnDestroy()
         {
             playerBodyCollisionEvents.collisionEntered -= OnCollisionEntered;
+            playerBodyCollisionEvents.triggerEntered -= OnTriggerEntered;
         }
     }
 }
