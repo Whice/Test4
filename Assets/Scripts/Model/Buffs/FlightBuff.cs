@@ -4,6 +4,7 @@ namespace Model
 {
     public class FlightBuff : IBuff
     {
+        protected override int score => 11;
         public const int BUFF_ID = 3;
         public override void SetEffect(Player player, List<IBuff> activeBuffs)
         {

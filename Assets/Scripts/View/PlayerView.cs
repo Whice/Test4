@@ -1,13 +1,12 @@
 ﻿using Model;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace View
 {
     public class PlayerView : MonoBehaviour
     {
-        [SerializeField] private float playerSpeed =5f;
-        [SerializeField] private float jumpForce =400f;
+        [SerializeField] private float playerSpeed = 5f;
+        [SerializeField] private float jumpForce = 400f;
         [SerializeField] private Rigidbody playerRigidbody = null;
         [SerializeField] private BodyCollisionEvents playerBodyCollisionEvents = null;
         private Camera mainCamera;
@@ -33,7 +32,7 @@ namespace View
         private Player player;
         public void Initialize(Player player)
         {
-            this.player=player;
+            this.player = player;
         }
 
         private bool isOnFloor;
@@ -67,12 +66,12 @@ namespace View
         private void OnTriggerEntered(Collider other)
         {
             BonusViewReference bonusViewReference = other.GetComponent<BonusViewReference>();
-            if(bonusViewReference != null )
+            if (bonusViewReference != null)
             {
                 player.AddBonus(bonusViewReference.bonusView.id);
                 bonusViewReference.bonusView.gameObject.SetActive(false);
             }
-            if (other.GetComponent<FinishIndicator>()!=null)
+            if (other.GetComponent<FinishIndicator>() != null)
             {
                 player.OnPlayerFinished();
             }

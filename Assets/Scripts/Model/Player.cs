@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace Model
 {
@@ -35,13 +32,22 @@ namespace Model
             }
             set
             {
-                if(_isPlayerMustFly != value)
+                if (_isPlayerMustFly != value)
                 {
                     _isPlayerMustFly = value;
                     isPlayerMustFlyChanged?.Invoke(value);
                 }
             }
         }
+
+        public int score { get; private set; }
+        public event Action scoreChanged;
+        public void AddScore(int value)
+        {
+            score += value;
+            scoreChanged?.Invoke();
+        }
+
 
         /// <summary>
         /// Бонус был добавлен.
@@ -54,7 +60,7 @@ namespace Model
         /// <param name="id"></param>
         public void AddBonus(int id)
         {
-            bonusAdded?.Invoke(id); 
+            bonusAdded?.Invoke(id);
         }
 
         public event Action finished;
@@ -67,6 +73,7 @@ namespace Model
         {
             ResetSpeedMultiplier();
             _isPlayerMustFly = false;
+            score = 0;
         }
         public Player()
         {

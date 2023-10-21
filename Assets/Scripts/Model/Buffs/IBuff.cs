@@ -9,7 +9,8 @@ namespace Model
     /// </summary>
     public abstract class IBuff
     {
-        public int id { get;protected set; }
+        public int id { get; protected set; }
+        protected abstract int score { get; }
         protected Player player;
         private float createTime;
         protected float lifeTime;
@@ -21,13 +22,14 @@ namespace Model
             this.player = player;
             createTime = Time.time;
             lifeTime = 10f;
+            player.AddScore(score);
         }
         /// <summary>
         /// Отменить из списка все баффы с указаным id.
         /// </summary>
         /// <param name="buffs"></param>
         /// <param name="id"></param>
-        protected void UndoAllBuffWithID(List<IBuff> buffs,int id)
+        protected void UndoAllBuffWithID(List<IBuff> buffs, int id)
         {
             List<IBuff> buffsForRemove = new List<IBuff>();
             foreach (IBuff buff in buffs)

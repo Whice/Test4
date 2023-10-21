@@ -10,7 +10,7 @@ namespace View
         public BonusView bonusView { get; private set; }
         public void Initialize(BonusView view)
         {
-            bonusView = view;   
+            bonusView = view;
         }
     }
 }

@@ -22,15 +22,15 @@ namespace View
         }
         public bool isPlayerStart
         {
-            get=>playerStartPoint != null;
+            get => playerStartPoint != null;
         }
         public bool isPlayerFinish
         {
-            get=> playerFinisPoint != null;
+            get => playerFinisPoint != null;
         }
         public float size
         {
-            get=>floor.transform.localScale.x;
+            get => floor.transform.localScale.x;
         }
         private void CreateRandomBonuses()
         {

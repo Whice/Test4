@@ -1,6 +1,4 @@
 ﻿using Model;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace View
@@ -17,10 +15,10 @@ namespace View
 
         private PlayerView playerView;
 
-        private Level level;
+        public Level level { get; private set; }
 
         private LevelPart[] levelParts;
-        private void Awake()
+        public void Initialize()
         {
             level = new Level();
 

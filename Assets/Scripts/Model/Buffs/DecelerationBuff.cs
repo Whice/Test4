@@ -4,6 +4,7 @@ namespace Model
 {
     public class DecelerationBuff : IBuff
     {
+        protected override int score => 17;
         public const int BUFF_ID = 1;
         public override void SetEffect(Player player, List<IBuff> activeBuffs)
         {
