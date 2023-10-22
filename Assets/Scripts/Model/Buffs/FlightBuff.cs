@@ -15,7 +15,8 @@ namespace Model
         public override void UndoEffect()
         {
             base.UndoEffect();
-            player.isPlayerMustFly = false;
+            if (player != null)
+                player.isPlayerMustFly = false;
         }
         public FlightBuff() : base(BUFF_ID) { }
     }

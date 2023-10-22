@@ -1,4 +1,5 @@
 ﻿using Model;
+using System;
 using UnityEngine;
 
 namespace View
@@ -51,12 +52,18 @@ namespace View
             }
             CreateLevelParts();
         }
+        public event Action<bool> gameFinished;
+        private void OnGameFinished(bool isWin)
+        {
+            gameFinished?.Invoke(isWin);
+        }
         public void Initialize()
         {
             level = new Level();
 
             playerView = Instantiate(playerViewTemplate, transform);
             playerView.Initialize(level.player);
+            playerView.playerLoosed += () => { OnGameFinished(false); };
 
             levelParts = new LevelPart[levelPartCount + 2];
             CreateLevelParts();
@@ -64,6 +71,11 @@ namespace View
         private void Update()
         {
             level.Tick(Time.time);
+
+            if (playerView.position.x > levelParts[levelParts.Length - 1].playerFinisPoint.transform.position.x)
+            {
+                OnGameFinished(true);
+            }
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Model;
-using Unity.VisualScripting;
+using System;
 using UnityEngine;
 
 namespace View
@@ -15,7 +15,7 @@ namespace View
         private Camera mainCamera;
 
 
-        private Vector3 position
+        public Vector3 position
         {
             get
             {
@@ -68,10 +68,12 @@ namespace View
                 }
             }
         }
+        public event Action playerLoosed;
         private void Update()
         {
             if (player != null)
             {
+                Transform rbTransform = playerRigidbody.transform;
                 float deltaTime = Time.deltaTime;
                 float posx = position.x + playerSpeed * player.speedMultiplier * deltaTime;
                 position = new Vector3
@@ -82,10 +84,9 @@ namespace View
                     );
 
                 //Игрок может либо летать, либо прыгать.
-                if(player.isPlayerMustFly)
+                if (player.isPlayerMustFly)
                 {
-                    liftingTimeLeft+= deltaTime;
-                    Transform rbTransform = playerRigidbody.transform;
+                    liftingTimeLeft += deltaTime;
                     Vector3 pos = rbTransform.localPosition;
                     if (rbTransform.localPosition.y < maxFlyHeight)
                     {
@@ -109,6 +110,11 @@ namespace View
                 else if (Input.GetMouseButtonDown(0))
                 {
                     Jump();
+                }
+
+                if (rbTransform.localPosition.y < 0)
+                {
+                    playerLoosed?.Invoke();
                 }
             }
         }
