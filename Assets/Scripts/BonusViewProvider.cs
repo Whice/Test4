@@ -4,6 +4,9 @@ using View;
 
 namespace Providers
 {
+    /// <summary>
+    /// Поставщик набора визуальных представлений бонусов для отображения.
+    /// </summary>
     [CreateAssetMenu(fileName = "BonusViewProvider", menuName = "Game view/BonusViewProvider")]
     public class BonusViewProvider : ScriptableObject
     {

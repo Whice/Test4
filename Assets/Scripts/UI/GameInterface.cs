@@ -6,6 +6,9 @@ using UnityEngine.UI;
 
 namespace UI
 {
+    /// <summary>
+    /// Простой класс для отображения минимального интерфейса.
+    /// </summary>
     public class GameInterface : MonoBehaviour
     {
         [SerializeField] private Button restartButton = null;

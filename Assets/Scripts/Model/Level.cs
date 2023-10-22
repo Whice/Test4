@@ -1,5 +1,9 @@
 ﻿namespace Model
 {
+    /// <summary>
+    /// Уровень.
+    /// Пока что тут можно управлять только игроком.
+    /// </summary>
     public class Level
     {
         public Player player { get; private set; }

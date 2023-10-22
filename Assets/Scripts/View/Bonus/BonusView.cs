@@ -7,9 +7,15 @@ namespace View
     /// </summary>
     public class BonusView : MonoBehaviour
     {
+        /// <summary>
+        /// Идентификатор, который должен совпадать с id баффа.
+        /// </summary>
         [SerializeField] private int _id = 0;
         [SerializeField] private BonusViewReference bonusViewReference = null;
 
+        /// <summary>
+        /// Идентификатор, который должен совпадать с id баффа.
+        /// </summary>
         public int id
         {
             get => _id;

@@ -2,6 +2,9 @@
 
 namespace Model
 {
+    /// <summary>
+    /// Бафф полета. Сообщает о том, что игрок должен лететь.
+    /// </summary>
     public class FlightBuff : IBuff
     {
         protected override int score => 11;

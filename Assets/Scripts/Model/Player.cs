@@ -2,6 +2,10 @@
 
 namespace Model
 {
+    /// <summary>
+    /// Класс игрока.
+    /// Содрежит информацию о состоянии игрока.
+    /// </summary>
     public class Player
     {
         /// <summary>

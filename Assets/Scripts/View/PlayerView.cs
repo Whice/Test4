@@ -4,12 +4,19 @@ using UnityEngine;
 
 namespace View
 {
+    /// <summary>
+    /// Предсталение игрока в пространстве.
+    /// </summary>
+    [RequireComponent(typeof(ViewXMover))]
     public class PlayerView : MonoBehaviour
     {
-        [SerializeField] private float playerSpeed = 5f;
         [SerializeField] private float jumpForce = 400f;
         [SerializeField] private float maxFlyHeight = 6f;
-        [SerializeField] private float liftingTime = 1f;
+        /// <summary>
+        /// 
+        /// Максильмальное время подуъема игрока, когда он летит.
+        /// </summary>
+        [SerializeField] private float maxLiftingTime = 1f;
         [SerializeField] private Rigidbody playerRigidbody = null;
         [SerializeField] private BodyCollisionEvents playerBodyCollisionEvents = null;
         private Camera mainCamera;
@@ -21,28 +28,9 @@ namespace View
             {
                 return transform.position;
             }
-            set
-            {
-                transform.position = value;
-                mainCamera.transform.position = new Vector3
-                    (
-                     value.x,
-                     mainCamera.transform.position.y,
-                     mainCamera.transform.position.z
-                    );
-            }
         }
 
         private Player player;
-        public void Initialize(Player player)
-        {
-            if (player != null)
-            {
-                player.isPlayerMustFlyChanged -= OnIsPlayerMustFlyChanged;
-            }
-            this.player = player;
-            player.isPlayerMustFlyChanged += OnIsPlayerMustFlyChanged;
-        }
 
         private bool isOnFloor;
         private void Jump()
@@ -53,6 +41,7 @@ namespace View
                 isOnFloor = false;
             }
         }
+
         private float liftingTimeLeft;
         private float startYPosition;
         private void OnIsPlayerMustFlyChanged(bool isFly)
@@ -68,19 +57,21 @@ namespace View
                 }
             }
         }
+
         public event Action playerLoosed;
+        private ViewXMover viewXMover;
         private void Update()
         {
             if (player != null)
             {
                 Transform rbTransform = playerRigidbody.transform;
                 float deltaTime = Time.deltaTime;
-                float posx = position.x + playerSpeed * player.speedMultiplier * deltaTime;
-                position = new Vector3
+                viewXMover.UpdatePosition(player.speedMultiplier); 
+                mainCamera.transform.position = new Vector3
                     (
-                        posx,
-                        position.y,
-                        position.z
+                     transform.position.x,
+                     mainCamera.transform.position.y,
+                     mainCamera.transform.position.z
                     );
 
                 //Игрок может либо летать, либо прыгать.
@@ -93,7 +84,7 @@ namespace View
                         rbTransform.localPosition = new Vector3
                             (
                                 pos.x,
-                                Mathf.Lerp(startYPosition, maxFlyHeight, liftingTimeLeft / liftingTime),
+                                Mathf.Lerp(startYPosition, maxFlyHeight, liftingTimeLeft / maxLiftingTime),
                                 pos.z
                             );
                     }
@@ -118,11 +109,6 @@ namespace View
                 }
             }
         }
-        public void ResetPlayer()
-        {
-            playerRigidbody.transform.rotation = Quaternion.identity;
-            playerRigidbody.transform.localPosition = Vector3.up;
-        }
         private void OnCollisionEntered(Collision collision)
         {
             if (collision.gameObject.GetComponent<FloorIndicator>() != null)
@@ -143,8 +129,23 @@ namespace View
                 player.OnPlayerFinished();
             }
         }
+        public void ResetPlayer()
+        {
+            playerRigidbody.transform.rotation = Quaternion.identity;
+            playerRigidbody.transform.localPosition = Vector3.up;
+        }
+        public void Initialize(Player player)
+        {
+            if (player != null)
+            {
+                player.isPlayerMustFlyChanged -= OnIsPlayerMustFlyChanged;
+            }
+            this.player = player;
+            player.isPlayerMustFlyChanged += OnIsPlayerMustFlyChanged;
+        }
         private void Awake()
         {
+            viewXMover = GetComponent<ViewXMover>();    
             isOnFloor = true;
             mainCamera = Camera.main;
             playerBodyCollisionEvents.collisionEntered += OnCollisionEntered;

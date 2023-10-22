@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace View
 {
+    /// <summary>
+    /// Часть уровня, из таких будет собираться уровень.
+    /// </summary>
     public class LevelPart : MonoBehaviour
     {
         [SerializeField] private BonusViewProvider bonusViewProvider = null;

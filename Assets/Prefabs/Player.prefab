@@ -136,6 +136,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5278148922293839367}
+  - component: {fileID: 4313066304675403631}
   - component: {fileID: 8415714408910827897}
   m_Layer: 0
   m_Name: Player
@@ -160,6 +161,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4313066304675403631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8551186104186310477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 935781786432601429605758a2aa7171, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
 --- !u!114 &8415714408910827897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,7 +186,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cc5693a9f448f548bb66e8865618433, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerSpeed: 5
   jumpForce: 400
+  maxFlyHeight: 6
+  maxLiftingTime: 1
   playerRigidbody: {fileID: 3651218257380199959}
   playerBodyCollisionEvents: {fileID: 3944668197682591708}

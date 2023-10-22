@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace View
 {
+    /// <summary>
+    /// Представление уровня.
+    /// </summary>
     public class LevelView : MonoBehaviour
     {
         [SerializeField] private PlayerView playerViewTemplate = null;

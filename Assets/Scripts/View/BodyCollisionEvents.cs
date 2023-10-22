@@ -3,6 +3,10 @@ using UnityEngine;
 
 namespace View
 {
+    /// <summary>
+    /// Скрипт, который позволяет отслеживать события
+    /// взаимодействия коллизий с этим объектом другим объектам.
+    /// </summary>
     public class BodyCollisionEvents : MonoBehaviour
     {
         public event Action<Collision> collisionEntered;
