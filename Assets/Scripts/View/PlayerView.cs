@@ -1,4 +1,5 @@
 ﻿using Model;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace View
@@ -7,9 +8,12 @@ namespace View
     {
         [SerializeField] private float playerSpeed = 5f;
         [SerializeField] private float jumpForce = 400f;
+        [SerializeField] private float maxFlyHeight = 6f;
+        [SerializeField] private float liftingTime = 1f;
         [SerializeField] private Rigidbody playerRigidbody = null;
         [SerializeField] private BodyCollisionEvents playerBodyCollisionEvents = null;
         private Camera mainCamera;
+
 
         private Vector3 position
         {
@@ -32,7 +36,12 @@ namespace View
         private Player player;
         public void Initialize(Player player)
         {
+            if (player != null)
+            {
+                player.isPlayerMustFlyChanged -= OnIsPlayerMustFlyChanged;
+            }
             this.player = player;
+            player.isPlayerMustFlyChanged += OnIsPlayerMustFlyChanged;
         }
 
         private bool isOnFloor;
@@ -44,19 +53,60 @@ namespace View
                 isOnFloor = false;
             }
         }
+        private float liftingTimeLeft;
+        private float startYPosition;
+        private void OnIsPlayerMustFlyChanged(bool isFly)
+        {
+            if (playerRigidbody.isKinematic != isFly)
+            {
+                playerRigidbody.isKinematic = isFly;
+                if (isFly)
+                {
+                    liftingTimeLeft = 0;
+                    startYPosition = playerRigidbody.transform.position.y;
+                    isOnFloor = false;
+                }
+            }
+        }
         private void Update()
         {
             if (player != null)
             {
-                float posx = position.x + playerSpeed * player.speedMultiplier * Time.deltaTime;
+                float deltaTime = Time.deltaTime;
+                float posx = position.x + playerSpeed * player.speedMultiplier * deltaTime;
                 position = new Vector3
                     (
-                    posx,
-                    position.y,
-                    position.z
+                        posx,
+                        position.y,
+                        position.z
                     );
 
-                if (Input.GetMouseButtonDown(0))
+                //Игрок может либо летать, либо прыгать.
+                if(player.isPlayerMustFly)
+                {
+                    liftingTimeLeft+= deltaTime;
+                    Transform rbTransform = playerRigidbody.transform;
+                    Vector3 pos = rbTransform.localPosition;
+                    if (rbTransform.localPosition.y < maxFlyHeight)
+                    {
+                        rbTransform.localPosition = new Vector3
+                            (
+                                pos.x,
+                                Mathf.Lerp(startYPosition, maxFlyHeight, liftingTimeLeft / liftingTime),
+                                pos.z
+                            );
+                    }
+                    else
+                    {
+                        rbTransform.localPosition = new Vector3
+                            (
+                                pos.x,
+                                maxFlyHeight,
+                                pos.z
+                            );
+                    }
+                }
+                else if (Input.GetMouseButtonDown(0))
                 {
                     Jump();
                 }

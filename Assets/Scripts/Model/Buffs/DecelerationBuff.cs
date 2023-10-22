@@ -16,7 +16,7 @@ namespace Model
         public override void UndoEffect()
         {
             base.UndoEffect();
-            player.ResetSpeedMultiplier();
+            player?.ResetSpeedMultiplier();
         }
 
         public DecelerationBuff() : base(BUFF_ID) { }
