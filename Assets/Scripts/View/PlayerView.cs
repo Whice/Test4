@@ -36,6 +36,14 @@ namespace View
         }
 
         private bool isOnFloor;
+        private void Jump()
+        {
+            if (isOnFloor)
+            {
+                playerRigidbody.AddForce(Vector3.up * jumpForce);
+                isOnFloor = false;
+            }
+        }
         private void Update()
         {
             if (player != null)
@@ -48,14 +56,17 @@ namespace View
                     position.z
                     );
 
-                if (isOnFloor && Input.GetKey(KeyCode.UpArrow))
+                if (Input.GetMouseButtonDown(0))
                 {
-                    playerRigidbody.AddForce(Vector3.up * jumpForce);
-                    isOnFloor = false;
+                    Jump();
                 }
             }
         }
-
+        public void ResetPlayer()
+        {
+            playerRigidbody.transform.rotation = Quaternion.identity;
+            playerRigidbody.transform.localPosition = Vector3.up;
+        }
         private void OnCollisionEntered(Collision collision)
         {
             if (collision.gameObject.GetComponent<FloorIndicator>() != null)

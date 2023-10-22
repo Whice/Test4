@@ -9,10 +9,23 @@ namespace Model
     /// </summary>
     public abstract class IBuff
     {
+        /// <summary>
+        /// Идентификатор баффа, в том числе, для определения его отображения.
+        /// </summary>
         public int id { get; protected set; }
+        /// <summary>
+        /// Счет за получение этого баффа.
+        /// </summary>
         protected abstract int score { get; }
+        /// <summary>
+        /// Ссылка на игрока, для влияения на его параметры.
+        /// </summary>
         protected Player player;
         private float createTime;
+        /// <summary>
+        /// Время жизни.
+        /// Может быть изменено для конкретного наследника.
+        /// </summary>
         protected float lifeTime;
         /// <summary>
         /// Применить эффект к игроку.

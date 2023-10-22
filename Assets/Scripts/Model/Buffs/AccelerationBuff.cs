@@ -2,6 +2,10 @@
 
 namespace Model
 {
+    /// <summary>
+    /// Бафф ускорения отменяет бафф замедления 
+    /// и обновляет время для предыуещго баффа ускорения.
+    /// </summary>
     public class AccelerationBuff : IBuff
     {
         protected override int score => 3;

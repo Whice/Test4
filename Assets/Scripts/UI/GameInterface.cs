@@ -26,12 +26,15 @@ namespace UI
         private void ResetGame()
         {
             startTime = Time.time;
+            levelView.ResetView();
+            OnScoreChanged();
         }
         private void Awake()
         {
             levelView.Initialize();
+            OnScoreChanged();
             levelView.level.player.scoreChanged += OnScoreChanged;
-            ResetGame();
+            restartButton.onClick.AddListener(ResetGame);
         }
     }
 

@@ -4,6 +4,9 @@ namespace Model
 {
     /// <summary>
     /// Управляет баффами для установленного игрока.
+    /// <br/>Также имеет функцию пулла объектов, т.к. предполагается,
+    /// что он могут быть бонусы, которые могут складываться
+    /// (например бонус на увеличение множителя получаемых очков).
     /// </summary>
     public class BuffManager
     {
@@ -73,6 +76,7 @@ namespace Model
         {
             IBuff newBuff = GetNewBuff(id);
             newBuff.SetEffect(player, activeBuffs);
+            activeBuffs.Add(newBuff);
         }
 
         /// <summary>
@@ -101,9 +105,9 @@ namespace Model
                     activeBuffs.Add(stack.Pop());
                 }
             }
-            foreach (IBuff buff in activeBuffs)
+            while (activeBuffs.Count != 0)
             {
-                buff.Dispose();
+                activeBuffs[activeBuffs.Count - 1].Dispose();
             }
             activeBuffs.Clear();
         }

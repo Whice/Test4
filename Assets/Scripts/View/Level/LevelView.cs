@@ -18,18 +18,12 @@ namespace View
         public Level level { get; private set; }
 
         private LevelPart[] levelParts;
-        public void Initialize()
+        private void CreateLevelParts()
         {
-            level = new Level();
-
-            playerView = Instantiate(playerViewTemplate, transform);
-            playerView.Initialize(level.player);
-
-            levelParts = new LevelPart[levelPartCount + 2];
             levelParts[0] = Instantiate(levelPartStart, levelPartsParent);
-            playerView.transform.SetParent(levelParts[0].transform, false);
+            playerView.transform.SetParent(levelParts[0].transform, true);
             playerView.transform.localPosition = levelParts[0].playerStartPoint.localPosition;
-            playerView.transform.SetParent(transform, false);
+            playerView.transform.SetParent(transform, true);
             levelParts[levelParts.Length - 1] = Instantiate(levelPartFinish, levelPartsParent);
 
             for (int i = 0; i < levelPartCount; i++)
@@ -41,11 +35,35 @@ namespace View
             {
                 levelParts[i].transform.localPosition = new Vector3
                     (
-                    (levelParts[i].size + 0.5f) * i,
+                    (levelParts[i].size + 2.5f) * i,
                     0,
                     0
                     );
             }
+        }
+        public void ResetView()
+        {
+            level.ResetLevel();
+            playerView.ResetPlayer();
+            foreach (LevelPart part in levelParts)
+            {
+                Destroy(part.gameObject);
+            }
+            CreateLevelParts();
+        }
+        public void Initialize()
+        {
+            level = new Level();
+
+            playerView = Instantiate(playerViewTemplate, transform);
+            playerView.Initialize(level.player);
+
+            levelParts = new LevelPart[levelPartCount + 2];
+            CreateLevelParts();
+        }
+        private void Update()
+        {
+            level.Tick(Time.time);
         }
     }
 }

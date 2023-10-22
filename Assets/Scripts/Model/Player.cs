@@ -48,19 +48,13 @@ namespace Model
             scoreChanged?.Invoke();
         }
 
-
-        /// <summary>
-        /// Бонус был добавлен.
-        /// В аргументе id.
-        /// </summary>
-        public event Action<int> bonusAdded;
         /// <summary>
         /// Добавить бонус игроку.
         /// </summary>
         /// <param name="id"></param>
         public void AddBonus(int id)
         {
-            bonusAdded?.Invoke(id);
+            buffsManager.SetBuff(id);
         }
 
         public event Action finished;
@@ -69,14 +63,27 @@ namespace Model
             finished?.Invoke();
         }
 
+        private BuffManager buffsManager;
+
+        /// <summary>
+        /// Обновить внутренние данные.
+        /// </summary>
+        /// <param name="nowTime"></param>
+        public void Tick(float nowTime)
+        {
+            buffsManager.Tick(nowTime);
+        }
         public void ResetPlayer()
         {
             ResetSpeedMultiplier();
             _isPlayerMustFly = false;
             score = 0;
+
+            buffsManager?.Dispose();
         }
         public Player()
         {
+            buffsManager = new BuffManager(this);
             ResetPlayer();
         }
     }
