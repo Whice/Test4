@@ -22,8 +22,11 @@ namespace Model
         private List<IBuff> activeBuffs = new List<IBuff>();
         private void RemoveFromActive(IBuff buff)
         {
-            activeBuffs.Remove(buff);
-            buffsByID[buff.id].Push(buff);
+            if (!isDisposeProcessed)
+            {
+                activeBuffs.Remove(buff);
+                buffsByID[buff.id].Push(buff);
+            }
         }
         private IBuff GetNewBuff(int id)
         {
@@ -62,11 +65,13 @@ namespace Model
                 if (newBuff != null)
                 {
                     buffsByID[id].Push(newBuff);
-                    newBuff.buffRolledBack += RemoveFromActive;
                 }
             }
+            IBuff returnedBuff = buffsByID[id].Pop();
+            returnedBuff.buffRolledBack -= RemoveFromActive;
+            returnedBuff.buffRolledBack += RemoveFromActive;
 
-            return buffsByID[id].Pop();
+            return returnedBuff;
         }
         /// <summary>
         /// Добавить игроку бафф.
@@ -96,8 +101,10 @@ namespace Model
             this.player = player;
         }
 
+        private bool isDisposeProcessed;
         public void Dispose()
         {
+            isDisposeProcessed = true;
             foreach (Stack<IBuff> stack in buffsByID.Values)
             {
                 while (stack.Count != 0)
@@ -105,11 +112,13 @@ namespace Model
                     activeBuffs.Add(stack.Pop());
                 }
             }
-            while (activeBuffs.Count != 0)
+            for(int i = activeBuffs.Count - 1; i !=-1; i--) 
             {
-                activeBuffs[activeBuffs.Count - 1].Dispose();
+                activeBuffs[i].UndoEffect();
+                buffsByID[activeBuffs[i].id].Push(activeBuffs[i]);
             }
             activeBuffs.Clear();
+            isDisposeProcessed = false;
         }
     }
 }

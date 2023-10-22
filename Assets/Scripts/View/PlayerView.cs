@@ -133,6 +133,8 @@ namespace View
         {
             playerRigidbody.transform.rotation = Quaternion.identity;
             playerRigidbody.transform.localPosition = Vector3.up;
+            isOnFloor = true;
+            playerRigidbody.isKinematic = false;
         }
         public void Initialize(Player player)
         {
